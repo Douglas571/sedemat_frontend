@@ -6,6 +6,7 @@ import {
     List,
     ListItem,
     ListItemIcon,
+    ListItemButton,
     ListItemText,
     Divider,
     IconButton,
@@ -16,11 +17,22 @@ import {
     Input,
     TextField,
     InputAdornment,
-    Box
+    Box,
+    Fab
   } from '@mui/material';
 
+  import {
+    useNavigate,
+    useLocation
+  } from "react-router-dom"
+
 import { DataGrid } from '@mui/x-data-grid';
-import { ChevronLeft as ChevronLeftIcon, CoPresentOutlined, Menu as MenuIcon, Search as SearchIcon } from '@mui/icons-material';
+import { 
+  ChevronLeft as ChevronLeftIcon,
+  Menu as MenuIcon, 
+  Search as SearchIcon,
+  Add as AddIcon
+} from '@mui/icons-material';
 
 // personal libraries 
 import useStore from '@/store'
@@ -75,6 +87,19 @@ export default function AdminPanel() {
 
 const TopLayout = ({ title, user, list, data }) => {
   const {contribuyentes} = data
+  const navigate = useNavigate()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search);
+  const [showNewContribuyenteMessage, setShowNewContribuyenteMessage] = useState(false)
+  // add the message components
+
+  if (queryParams.get('newContribuyente') === 'success') {
+    console.log('contribuyente added successfuly')
+    setShowNewContribuyenteMessage(true)
+    setTimeout(() => {
+      setShowNewContribuyenteMessage(false)
+    }, 5000)
+  }
 
   const [showDrawer, setShowDrawer] = useState(false)
 
@@ -126,13 +151,23 @@ const TopLayout = ({ title, user, list, data }) => {
           <Divider />
           <List>
             {list.map((item, index) => (
-              <ListItem button key={item.text} selected={item.selected} sx={{ }}>
-                <ListItemText primary={item.text} />
-              </ListItem>
+              <ListItemButton onClick={() => {}}>
+                <ListItem key={item.text} selected={item.selected} sx={{}}>
+                  <ListItemText primary={item.text} />
+                </ListItem>
+              </ListItemButton>
             ))}
           </List>
-
         </Drawer>
+        <Fab 
+          color="primary" 
+          aria-label="add" 
+          data-testid="add-new-contribuyente"
+          sx={{ position: 'absolute', right: '20px', bottom: '20px'}}
+          onClick={() => navigate('nuevoContribuyente')}
+        >
+          <AddIcon />
+        </Fab>
       </Box>
     </>
   )
@@ -153,4 +188,3 @@ const ListComponent = ({ data }) => {
     </List>
   );
 };
-

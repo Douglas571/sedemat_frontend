@@ -9,6 +9,7 @@ import {
 
 import Login from '@/pages/Login.jsx'
 import AdminUser from '@/pages/AdminUsers.jsx'
+import NewContribuyente from './pages/NewContribuyente'
 import { UserProvider } from '@/store/useUser'
 
 import useStore from '@/store'
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
         path: "",
         element: <AdminUser/>
       },
+      {
+        path: "nuevoContribuyente",
+        element: <NewContribuyente/>
+      }
     ]
   },
   {

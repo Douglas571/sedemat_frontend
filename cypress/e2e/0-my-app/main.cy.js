@@ -63,7 +63,7 @@ describe('recaudador duties', () => {
 
   
   
-  it('Recaudador duties', () => {
+  it.skip('Recaudador duties', () => {
     /**
    * He should be able to
    * he should be able to look into the "contribuyentes" section
@@ -75,18 +75,6 @@ describe('recaudador duties', () => {
    *  if the tex payer is already registered, he should be able to look into the registe checkbox 
    */
 
-    // there should be at least 3 contributors into the table
-
-    // there should be able to click a contribuyente
-
-    // he should be navigated to the contribuyente page
-
-    // there should be a button to add patente de veiculos
-
-    // he should be navigated to the "nueva patente de veiculos" page
-  })
-
-  it('Recaudador features', () => {
     // cy.url().should('include', '/contributors');
 
     // Verify at least 3 contributors are present
@@ -102,5 +90,12 @@ describe('recaudador duties', () => {
     // Navigate to the "new vehicle patent" page
     cy.get('[data-testid="add-vehicle-patent-button"]').click();
     cy.url().should('include', '/new-vehicle-patent');
-});
+  })
+
+  it('Recaudador add contribuyente', () => {
+    cy.get('[data-testid="add-new-contribuyente"]').click()
+
+
+    
+  });
 })

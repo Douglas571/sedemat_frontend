@@ -10,6 +10,16 @@ const useStore = create(
     },
     setContribuyentes: (contribuyentes) => {
       set((state) => ({ contribuyentes }))
+    },
+    addContribuyente: (newContribuyente) => {
+      set(state => {
+        return {
+          contribuyentes: [
+            ...state.contribuyentes,
+            newContribuyente
+          ]
+        }
+      })
     }
   }),
     {
