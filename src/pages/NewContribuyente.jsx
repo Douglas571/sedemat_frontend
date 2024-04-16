@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button';
-import { Typography } from '@mui/material';
+import { Typography, AppBar, Toolbar, IconButton } from '@mui/material';
 
 import _ from "lodash"
 
 import useStore from '@/store'
 import * as api from '@/libs/api'
 import { useNavigate } from 'react-router';
+
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 
 function NewContribuyente() {
   // State to hold form field values
@@ -58,8 +61,29 @@ function NewContribuyente() {
   };
 
   return (
-    <Box sx={{ padding: 2}}>
-        <Typography variant='h6'>Nuevo Contribuyente</Typography>
+    <Box sx={{ padding: 2, pt: 9}}>
+
+
+        {/* the app bar */}
+        <AppBar sx={{ position: 'fixed'}}>
+            <Toolbar>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+                onClick={() => navigate('/user')}
+              >
+                <ArrowBackIcon />
+              </IconButton>
+              <Typography variant="h6" noWrap component="div">
+                {'Nuevo Contribuyente'}
+              </Typography>
+            </Toolbar>
+          </AppBar>
+
+
         <form onSubmit={handleSubmit}>
             <TextField
                 fullWidth

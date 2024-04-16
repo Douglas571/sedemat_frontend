@@ -18,12 +18,14 @@ import {
     TextField,
     InputAdornment,
     Box,
-    Fab
+    Fab,
+    Alert
   } from '@mui/material';
 
   import {
     useNavigate,
-    useLocation
+    useLocation,
+    useSearchParams,
   } from "react-router-dom"
 
 import { DataGrid } from '@mui/x-data-grid';
@@ -31,7 +33,8 @@ import {
   ChevronLeft as ChevronLeftIcon,
   Menu as MenuIcon, 
   Search as SearchIcon,
-  Add as AddIcon
+  Add as AddIcon,
+  Check as CheckIcon,
 } from '@mui/icons-material';
 
 // personal libraries 
@@ -91,15 +94,23 @@ const TopLayout = ({ title, user, list, data }) => {
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search);
   const [showNewContribuyenteMessage, setShowNewContribuyenteMessage] = useState(false)
+  const [searchParams, setSearchParams] = useSearchParams();
   // add the message components
 
-  if (queryParams.get('newContribuyente') === 'success') {
-    console.log('contribuyente added successfuly')
-    setShowNewContribuyenteMessage(true)
-    setTimeout(() => {
-      setShowNewContribuyenteMessage(false)
-    }, 5000)
-  }
+  // use ref
+
+  useEffect(() => {
+    if (queryParams.get('newContribuyente') === 'success') {
+      console.log('contribuyente added successfuly')
+      setShowNewContribuyenteMessage(true)
+      setTimeout(() => {
+        setShowNewContribuyenteMessage(false)
+        setSearchParams(searchParams.delete('newContribuyente'))
+      }, 3000)
+    }
+  }, [location])
+
+  
 
   const [showDrawer, setShowDrawer] = useState(false)
 
@@ -139,7 +150,25 @@ const TopLayout = ({ title, user, list, data }) => {
             }}/>
           </Stack>
           <ListComponent data={contribuyentes}></ListComponent>
+
+
+          { showNewContribuyenteMessage && 
+            (<Alert 
+              icon={<CheckIcon fontSize="inherit" />} 
+              severity="success"
+              sx={{ position: 'fixed', bottom: '10px'}}>
+                Here is a gentle confirmation that your action was successful.
+            </Alert>)
+          }
+
+          
+
+
+
         </Box>
+
+
+
         <Drawer
           open={showDrawer}
           onClose={() => setShowDrawer(false)}
@@ -159,12 +188,15 @@ const TopLayout = ({ title, user, list, data }) => {
             ))}
           </List>
         </Drawer>
+
+
+
         <Fab 
           color="primary" 
           aria-label="add" 
           data-testid="add-new-contribuyente"
           sx={{ position: 'absolute', right: '20px', bottom: '20px'}}
-          onClick={() => navigate('nuevoContribuyente')}
+          onClick={() => navigate('contribuyentes/new')}
         >
           <AddIcon />
         </Fab>
@@ -174,11 +206,19 @@ const TopLayout = ({ title, user, list, data }) => {
 }
 
 const ListComponent = ({ data }) => {
+  const navigate = useNavigate()
+
+  console.log({data})
   return (
     <List dense={false}>
       {data.map((item) => (
-        <ListItem button key={item.rif}>
+        <ListItem button key={item.rif} onClick={() => {
+          console.log({item})
+          console.log(item.id)
+          navigate(`contribuyentes/${item.id}`)
+        }}>
           <ListItemText
+            key={item.rif}
             primary={item.razon_social}
             secondary={`RIF: ${item.rif} - Nombre ${item.contacto.primer_nombre} - Fiscal: ${item.fiscal}`}
           />
