@@ -11,6 +11,7 @@ import Login from '@/pages/Login.jsx'
 import AdminUser from '@/pages/AdminUsers.jsx'
 import NewContribuyente from './pages/NewContribuyente'
 import Contribuyente from './pages/Contribuyente'
+import NewPatenteDeVehiculos from './pages/NewPatenteDeVehiculos'
 import { UserProvider } from '@/store/useUser'
 
 import useStore from '@/store'
@@ -47,8 +48,12 @@ const router = createBrowserRouter([
       {
         path: "contribuyentes/:id",
         element: <Contribuyente/>
-      }
+      },
       // path contribuyente/:id/edit
+      {
+        path: "contribuyentes/:id/patentes/new",
+        element: <NewPatenteDeVehiculos/>
+      }
       
     ]
   },

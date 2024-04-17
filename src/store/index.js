@@ -20,6 +20,10 @@ const useStore = create(
           ]
         }
       })
+    },
+    getContribuyenteById: (id) => {
+      let contribuyente = get().contribuyentes.find( c => c.id == id )
+      return contribuyente
     }
   }),
     {
