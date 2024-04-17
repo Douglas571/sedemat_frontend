@@ -51,7 +51,7 @@ const router = createBrowserRouter([
       },
       // path contribuyente/:id/edit
       {
-        path: "contribuyentes/:id/patentes/new",
+        path: "contribuyentes/:ContribuyenteId/patentes/new",
         element: <NewPatenteDeVehiculos/>
       }
       

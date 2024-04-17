@@ -33,6 +33,13 @@ export async function signUp(username, password, rol) {
     }
 }
 
+export async function getUserInformation(token) {
+    try {
+        // TODO: get user information
+        let reponse = await axios.get()
+    }
+}
+
 export async function getContribuyentes({ user, populate }) {
     try {
         const response = await axios.get(`http://localhost:1337/api/contribuyentes?populate=*`, {
@@ -44,8 +51,7 @@ export async function getContribuyentes({ user, populate }) {
         console.log({ response });
 
         const contribuyentes = response.data.data.filter(c => {
-            console.log({c})
-            return c.attributes.contacto.data
+            return c.attributes.contacto.data?.id
         }).map( c => {
             if(!c.id) return null 
 
@@ -84,7 +90,6 @@ export async function nweContribuyente({user, contribuyente, contacto}) {
                 'Authorization': `bearer ${user.token}`
             }
         })
-        console.log({response})
 
 
         const contactoData = {
@@ -126,30 +131,42 @@ export async function nweContribuyente({user, contribuyente, contacto}) {
     // 
 }
 
-// I need a function that fetch data from http://localhost:1337/api/contribuyentes
-// it returns a response.data.contribuyentes
-// return the contribuyentes list
+// a function to fetch tipos de vehiculo
+// it makes a get request to http://localhost:1337/tipo-de-vehiculos
+// it receive a response
+// if it isn't sucessful, throw error
+// otherwise, extract the list of tipos de vehiculos from response.data.data
+// map each tipo de vehiculo like this:
+    // new_tipo_de_vehiculo = {
+    //  ...tipo_de_vehiculo.attributes,
+    //  id: tipo_de_vehiculo.id
+    //}
+
+// return the array of tipo de vehiculos
+// 
+
+export async function getTiposDeVehiculo({user}) {
+    try {
+        const response = await axios.get('http://localhost:1337/api/tipo-de-vehiculos', {
+            headers: {
+                'Authorization': `bearer ${user.token}`
+            }
+        });
+        const tiposDeVehiculo = response.data.data.map(tipo => ({
+            ...tipo.attributes,
+            id: tipo.id
+        }));
+        return tiposDeVehiculo;
+    } catch (error) {
+        console.log({error})
+        throw new Error('Failed to fetch tipos de vehiculo');
+    }
+}
 
 /**
- 
-hello chatgpt, I need you to separate this data structure into 2 entities: contacto and contribuyente
-
-{
-    rif: '',
-    cedula: '',
-    primerNombre: '',
-    segundoNombre: '',
-    direccion: '',
-    telefono: '',
-    correo: '',
-  }
-
-  contribuyentes has everything less rif
-  leave the contacto with the rest
-
-  now, make an api call to http://localhost:1337/api/contribuyentes with post method.
-
-
-
-
+ * 
+ * api endpoint
+ * permisos
+ * authorization
+ *  
  */

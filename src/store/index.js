@@ -5,6 +5,11 @@ const useStore = create(
   persist((set, get) => ({
     user: null,
     contribuyentes: [],
+    highestValueCurrency: {
+      name: 'euro',
+      sign: '€',
+      price: 41.91,
+    },
     setUser: (user) => {
       set((state) => ({ user }))
     },

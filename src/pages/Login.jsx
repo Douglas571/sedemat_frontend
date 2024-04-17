@@ -45,8 +45,11 @@ export default function Login() {
     // console.log({credentials})
 
     let token
+    let user
     try {
       token = await api.signIn(credentials)
+      //user = api.getUserInfo(token)
+      
       setUser({ token })
       navigate("/user")
     } catch (error) {
