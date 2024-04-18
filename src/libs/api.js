@@ -163,6 +163,58 @@ export async function getTiposDeVehiculo({user}) {
     }
 }
 
+// export async function addPatente({user, contribuyenteId, patente, fechaExpedicion, tipoDeVehiculo}) {
+//     // make a post api request to /api/patente-de-vehiculos, with an authentication token like this `bearer ${user.token}
+//     // the body will have the following data:
+//     /**
+//      * {
+//      *  
+//      *  ...patente,
+//      *  expedicion: fechaExpedicion,
+//      *  tipo_de_vehiculo: tipoDeVehiculo,
+//      *  contribuyente: {
+//      *      connect: [ contribuyenteId ]
+//      *  }
+//      * }
+//      */
+
+//     // map response into a new variable called finalPatente {
+//     //    id: response.data.data.id,
+//     //    ...response.data.data.attributes
+//     //}
+//     // it returns the finalPatente object
+// }
+
+export async function addPatente({ user, contribuyenteId, patente, fechaExpedicion, tipoDeVehiculo }) {
+    try {
+        const response = await axios.post(
+            '/api/patente-de-vehiculos',
+            {
+                ...patente,
+                expedicion: fechaExpedicion,
+                tipo_de_vehiculo: tipoDeVehiculo,
+                contribuyente: {
+                    connect: [contribuyenteId]
+                }
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${user.token}`
+                }
+            }
+        );
+
+        const finalPatente = {
+            id: response.data.data.id,
+            ...response.data.data.attributes
+        };
+
+        return finalPatente;
+    } catch (error) {
+        throw new Error('Failed to add patente');
+    }
+}
+
 /**
  * 
  * api endpoint

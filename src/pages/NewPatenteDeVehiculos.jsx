@@ -49,8 +49,8 @@ export default function NewPatenteDeVehiculos() {
         uso: 'Personal',
 
         concepto: 'Patente de Vehículos',
-        realizado_por: '',
-        verificado_por: '',  
+        realizado_por: 'nombre1',
+        verificado_por: 'nombre2',  
     });
     // TODO: Replace newPatente with form data
     let newPatente = formData
@@ -93,8 +93,10 @@ export default function NewPatenteDeVehiculos() {
         event.preventDefault();
         
         const patente = await api.addPatente({
+            user,
             contribuyenteId,
-            patente: formData
+            patente: formData,
+            fechaExpedicion: new Date(),
         })
 
         debugger
